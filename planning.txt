@@ -1,0 +1,31 @@
+# Lending App Design Doc 
+
+# Required Features
+
+# 1) Display list of users that need a loan.
+# 2) Action to ask for a loan 
+# 3) Action to pay off loan 
+# 4) Action to give loan with a set amount of interest
+
+# Displaying list of loans 
+
+1) Create new contract named LoansController
+2) Create new struct named Loan
+  struct Loan {
+      amount: uint,
+      borrower: address,
+      lender: address,
+      interest: uint 
+  }
+3) Create a new field.  
+  Loan[] loans 
+
+4) Implement getLoans method.   This method should just return loans.  This should be a view function as it does not modify state.
+
+# Action to ask for loan 
+
+1) Implement applyForLoan method.  
+    - Get borrower address using msg.sender 
+    - Create new Loan record 
+    - Append loan record to loans array 
+    - Emit event saying that a new loan has been been received. 
