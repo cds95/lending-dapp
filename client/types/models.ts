@@ -1,4 +1,5 @@
 export interface ILoan {
+    id: string,
     amount: number;
     borrowerAddress: string;
     lenderAddress?: string;

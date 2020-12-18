@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux"
 import ApiUtils from "../src/ApiUtils"
 
-import "./App.css";
+import "./App.scss";
 import { store } from "./redux";
 import { getSetEthAccountsAction, getSetEthNetworkIdAction, getSetLoansAction } from "./redux/actions";
 

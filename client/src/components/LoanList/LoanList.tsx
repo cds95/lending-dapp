@@ -1,26 +1,33 @@
 import React from "react"
 import { connect } from "react-redux"
+import { ILoan } from "../../../types/models"
 import { IReduxAppState } from "../../../types/redux"
-import getWeb3 from "../../getWeb3"
+import { LoanListRow } from "./LoanListRow"
 
-interface ILoanListCompProps {
-
+interface ILoanListCompReduxStateProps {
+    loans: ILoan[]
 }
 
-export class LoanListComp extends React.Component<ILoanListCompProps> {
+type TLoanListProps = ILoanListCompReduxStateProps
+
+
+export class LoanListComp extends React.Component<TLoanListProps> {
 
     render() {
+        const {loans} = this.props 
         return (
-            <div>
-
-            </div>
+            <ul>
+                {
+                    loans.map(loan => (<LoanListRow key={loan.id} loan={loan} />))
+                }
+            </ul>
         )
     }
 }
 
-const mapStateToProps = (state: IReduxAppState) => {
+const mapStateToProps = (state: IReduxAppState): ILoanListCompReduxStateProps => {
     return {
-        
+        loans: state.app.loans
     }
 }
 

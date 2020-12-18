@@ -6,6 +6,7 @@ export const convertApiResponseToLoans = (response: any): ILoan[] => {
     const loans: ILoan[] = []
     for(let i = 0; i < loanAmounts.length; i++) {
         loans[i] = {
+            id: i.toString(), //TODO:  Generate in contract
             borrowerAddress: borrowers[i],
             amount: parseInt(loanAmounts[i]),
             hasBeenSettled: false
