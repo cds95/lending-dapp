@@ -14,10 +14,17 @@ contract Loaner {
     uint256 private numLoans;
     uint256 private idCounter;
     mapping(address => uint256) balances;
-    mapping(address => uint256) pendingLoanWithdrawals;
 
     function inputFunds() public payable {
-        pendingLoanWithdrawals[msg.sender] += msg.value;
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdrawBalance(uint256 amount) public {
+        if (amount <= balances[msg.sender]) {
+            uint256 currBalance = balances[msg.sender];
+            balances[msg.sender] -= amount;
+            msg.sender.transfer(amount);
+        }
     }
 
     function getLoans() public view returns (uint256[] memory) {
@@ -47,7 +54,7 @@ contract Loaner {
     function giveLoan(uint256 loanId) public {
         Loan storage loan = loans[loanId];
         if (balances[msg.sender] >= loan.amount) {
-            pendingLoanWithdrawals[loan.borrower] += loan.amount;
+            balances[loan.borrower] += loan.amount;
             balances[msg.sender] -= loan.amount;
             loan.lender = msg.sender;
 
@@ -57,12 +64,15 @@ contract Loaner {
         }
     }
 
-    function withdrawLoan(uint256 loanId) public {
-        Loan memory loan = loans[loanId];
+    function payoffLoan(uint256 loanId) public {
+        Loan storage loan = loans[loanId];
         if (msg.sender == loan.borrower) {
-            uint256 amount = pendingLoanWithdrawals[msg.sender];
-            pendingLoanWithdrawals[msg.sender] = 0;
-            msg.sender.transfer(amount);
+            address lender = loan.lender;
+            balances[msg.sender] -= loan.amount;
+            balances[lender] += loan.amount;
+            loan.hasBeenSettled = true;
         }
+
+        // TODO:  Emit event saying loan has been paid
     }
 }
