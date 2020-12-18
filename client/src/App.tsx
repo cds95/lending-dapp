@@ -1,10 +1,14 @@
 import React from "react";
 import { Provider } from "react-redux"
 import ApiUtils from "../src/ApiUtils"
-
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Button from "@material-ui/core/Button";
 import "./App.scss";
 import { store } from "./redux";
 import { getSetEthAccountsAction, getSetEthNetworkIdAction, getSetLoansAction } from "./redux/actions";
+import { LoanList } from "./components/LoanList/LoanList";
 
 interface IAppState {
   isLoadingApp: boolean
@@ -42,8 +46,17 @@ class App extends React.Component<{}, IAppState> {
     }
     return (
       <Provider store={store}>
-        <div className="App">
-          <h1>Welcome to the Lending App!</h1>
+        <div className="app">
+          <div className="app__header">
+              <Typography variant="h3">Lending Tree</Typography>
+              <Button variant="contained">Get Loan</Button>
+              
+            </div>
+          <Card className="app__content">
+            <CardContent>
+              <LoanList />
+            </CardContent>
+          </Card>
         </div>
       </Provider>
     );
