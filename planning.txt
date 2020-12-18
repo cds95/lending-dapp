@@ -29,3 +29,9 @@
     - Create new Loan record 
     - Append loan record to loans array 
     - Emit event saying that a new loan has been been received. 
+
+# Example to call method using web3
+
+      await instance.methods.askForLoan(30000).send({
+        from: accounts[0]
+      })

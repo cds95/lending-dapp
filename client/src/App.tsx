@@ -1,10 +1,10 @@
 import React from "react";
-import getWeb3 from "./getWeb3";
 import { Provider } from "react-redux"
+import ApiUtils from "../src/ApiUtils"
 
 import "./App.css";
 import { store } from "./redux";
-import { getSetEthAccountsAction, getSetEthNetworkIdAction } from "./redux/actions";
+import { getSetEthAccountsAction, getSetEthNetworkIdAction, getSetLoansAction } from "./redux/actions";
 
 interface IAppState {
   isLoadingApp: boolean
@@ -16,15 +16,17 @@ class App extends React.Component<{}, IAppState> {
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
+      
+      await ApiUtils.initWeb3()
 
-      const networkId = await web3.eth.net.getId();
+      const accounts = await ApiUtils.getAccounts()
+      const networkId = await ApiUtils.getNetworkId()
       store.dispatch(getSetEthNetworkIdAction(networkId.toString()))
       store.dispatch(getSetEthAccountsAction(accounts))
       this.setState({isLoadingApp: false})
       
+      const loans = await ApiUtils.getLoans(networkId.toString())
+      store.dispatch(getSetLoansAction(loans))
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(

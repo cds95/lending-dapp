@@ -10,7 +10,7 @@ contract Loaner {
     }
 
     // loanId is the index of the loan
-    Loan[] private loans;
+    Loan[] public loans;
     uint256 private numLoans;
     uint256 private idCounter;
     mapping(address => uint256) balances;
@@ -27,13 +27,19 @@ contract Loaner {
         }
     }
 
-    function getLoans() public view returns (uint256[] memory) {
+    function getLoans()
+        public
+        view
+        returns (uint256[] memory, address[] memory)
+    {
         uint256[] memory loanAmounts = new uint256[](numLoans);
+        address[] memory borrowers = new address[](numLoans);
         for (uint256 i = 0; i < numLoans; i++) {
             Loan storage loan = loans[i];
             loanAmounts[i] = loan.amount;
+            borrowers[i] = loan.borrower;
         }
-        return loanAmounts;
+        return (loanAmounts, borrowers);
     }
 
     function getNumLoans() public view returns (uint256) {
@@ -44,9 +50,9 @@ contract Loaner {
         Loan memory newLoan;
         newLoan.borrower = msg.sender;
         newLoan.amount = loanAmountInWei;
-        loans[idCounter] = newLoan;
-        numLoans++;
-        idCounter++;
+        loans.push(newLoan);
+        numLoans = numLoans + 1;
+        idCounter = idCounter + 1;
 
         // TODO:  Emit event saying new loan has appeared
     }
