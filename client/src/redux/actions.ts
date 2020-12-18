@@ -10,3 +10,11 @@ export const getSetEthAccountsAction = (accounts: string[]): IReduxAction => {
         accounts
     }
 }
+
+export const SET_ETH_NETWORK_ID_ACTION = "SET_ETH_NETWORK_ID";
+export const getSetEthNetworkIdAction = (networkId: string): IReduxAction => {
+    return {
+        type: SET_ETH_NETWORK_ID_ACTION,
+        networkId
+    }
+}
