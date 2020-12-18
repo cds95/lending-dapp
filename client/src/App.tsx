@@ -9,13 +9,22 @@ import "./App.scss";
 import { store } from "./redux";
 import { getSetEthAccountsAction, getSetEthNetworkIdAction, getSetLoansAction } from "./redux/actions";
 import { LoanList } from "./components/LoanList/LoanList";
+import { AskLoanModal } from "./components/AskLoanModal/AskLoanModal";
 
 interface IAppState {
   isLoadingApp: boolean
+  isAskForLoanModalOpen: boolean 
 }
 
 class App extends React.Component<{}, IAppState> {
-  state: IAppState = { isLoadingApp: true };
+  state: IAppState = { isLoadingApp: true, isAskForLoanModalOpen: false };
+
+  constructor(props: any) {
+    super(props)
+
+    this.openAskLoanModal = this.openAskLoanModal.bind(this)
+    this.closeAskLoanModal = this.closeAskLoanModal.bind(this)
+  }
 
   componentDidMount = async () => {
     try {
@@ -39,9 +48,18 @@ class App extends React.Component<{}, IAppState> {
       console.error(error);
     }
   };
+  
+  openAskLoanModal() {
+    this.setState({isAskForLoanModalOpen: true})
+  }
+
+  closeAskLoanModal() {
+    this.setState({isAskForLoanModalOpen: false})
+  }
 
   render() {
-    if (this.state.isLoadingApp) {
+    const {isLoadingApp, isAskForLoanModalOpen} = this.state
+    if (isLoadingApp) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
@@ -49,8 +67,8 @@ class App extends React.Component<{}, IAppState> {
         <div className="app">
           <div className="app__header">
               <Typography variant="h3">Lending Tree</Typography>
-              <Button variant="contained">Get Loan</Button>
-              
+              <Button variant="contained" onClick={this.openAskLoanModal}>Get Loan</Button>
+              <AskLoanModal isOpen={isAskForLoanModalOpen} onClose={this.closeAskLoanModal}/>
             </div>
           <Card className="app__content">
             <CardContent>

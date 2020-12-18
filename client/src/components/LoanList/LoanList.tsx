@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { ILoan } from "../../../types/models"
 import { IReduxAppState } from "../../../types/redux"
 import { LoanListRow } from "./LoanListRow"
+import "./LoanList.scss";
 
 interface ILoanListCompReduxStateProps {
     loans: ILoan[]
@@ -16,7 +17,7 @@ export class LoanListComp extends React.Component<TLoanListProps> {
     render() {
         const {loans} = this.props 
         return (
-            <ul>
+            <ul className="loan-list">
                 {
                     loans.map(loan => (<LoanListRow key={loan.id} loan={loan} />))
                 }
