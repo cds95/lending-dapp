@@ -1,8 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import ApiUtils from '../src/ApiUtils'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
+import {CardContent, Card, LinearProgress, Typography}from '@material-ui/core'
 import './App.scss'
 import { store } from './redux'
 import {
@@ -52,7 +51,10 @@ class App extends React.Component<{}, IAppState> {
     render() {
         const { isLoadingApp } = this.state
         if (isLoadingApp) {
-            return <div>Loading Web3, accounts, and contract...</div>
+            return (<div className="app--loading"> 
+              <Typography variant="h3">Loading Lending Tree</Typography> 
+              <LinearProgress className="app--loading__indicator" />
+            </div>)
         }
         return (
             <Provider store={store}>
