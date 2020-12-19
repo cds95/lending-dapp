@@ -16,6 +16,18 @@ export class ApiUtils {
         this.web3 = await getWeb3()
     }
 
+    public listenToOnLoanProvidedEvent(networkdId: string, fn: (e: any) => void) {
+        this.checkWeb3Initialized()
+        if (this.web3) {
+            const contract = this.getContract(networkdId)
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                contract.address
+            )
+            instance.events.LoanProvided().on('data', fn)
+        }
+    }
+
     public listenToOnLoanAskedEvent(networkdId: string, fn: (e: any) => void) {
         this.checkWeb3Initialized()
         if (this.web3) {
@@ -88,6 +100,24 @@ export class ApiUtils {
             const amountInWei = this.convertEtherToWei(amountInEther)
             const bigNum = new BigNumber(`${amountInWei}`)
             await instance.methods.askForLoan(bigNum).send({
+                from: account,
+            })
+        }
+    }
+
+    public async giveLoan(
+        networkId: string,
+        account: string,
+        loanId: number
+    ): Promise<void> {
+        this.checkWeb3Initialized()
+        const deployedLoanerContract = this.getContract(networkId)
+        if (this.web3) {
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                deployedLoanerContract.address
+            )
+            await instance.methods.giveLoan(loanId).send({
                 from: account,
             })
         }

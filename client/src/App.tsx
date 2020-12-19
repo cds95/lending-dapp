@@ -73,6 +73,19 @@ class App extends React.Component<{}, IAppState> {
                     )
                 }
             )
+
+            ApiUtils.listenToOnLoanProvidedEvent(
+              networkId.toString(),
+              async () => {
+                  const updatedAccountBalance = await ApiUtils.getBalanceInContract(
+                      networkId.toString(),
+                      accounts[0]
+                  )
+                  store.dispatch(
+                      getSetAccountBalanceAction(updatedAccountBalance)
+                  )
+              }
+          )
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(

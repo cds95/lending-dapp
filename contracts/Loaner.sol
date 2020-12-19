@@ -46,16 +46,28 @@ contract Loaner {
     function getLoans()
         public
         view
-        returns (uint256[] memory, address[] memory)
+        returns (
+            uint256[] memory,
+            uint256[] memory,
+            address[] memory,
+            address[] memory,
+            bool[] memory
+        )
     {
+        uint256[] memory loanIds = new uint256[](numLoans);
         uint256[] memory loanAmounts = new uint256[](numLoans);
         address[] memory borrowers = new address[](numLoans);
+        address[] memory lenders = new address[](numLoans);
+        bool[] memory hasBeenSettledStates = new bool[](numLoans);
         for (uint256 i = 0; i < numLoans; i++) {
             Loan storage loan = loans[i];
+            loanIds[i] = i;
             loanAmounts[i] = loan.amount;
             borrowers[i] = loan.borrower;
+            lenders[i] = loan.lender;
+            hasBeenSettledStates[i] = loan.hasBeenSettled;
         }
-        return (loanAmounts, borrowers);
+        return (loanIds, loanAmounts, borrowers, lenders, hasBeenSettledStates);
     }
 
     function getNumLoans() public view returns (uint256) {
