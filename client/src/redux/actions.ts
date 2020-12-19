@@ -17,11 +17,19 @@ export const getSetEthNetworkIdAction = (networkId: string): IReduxAction => {
     }
 }
 
-export const SET_LOANS_ACTION = 'SET_LOANS_ACTION'
+export const SET_LOANS_ACTION = 'SET_LOANS'
 export const getSetLoansAction = (loans: ILoan[]): IReduxAction => {
     return {
         type: SET_LOANS_ACTION,
         loans,
+    }
+}
+
+export const ADD_NEW_LOAN_ACTION = 'ADD_NEW_LOAN'
+export const getAddNewLoanAction = (loan: ILoan): IReduxAction => {
+    return {
+        type: ADD_NEW_LOAN_ACTION,
+        loan,
     }
 }
 

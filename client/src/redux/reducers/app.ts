@@ -1,4 +1,5 @@
 import {
+    ADD_NEW_LOAN_ACTION,
     SET_ACCOUNT_BALANCE_ACTION,
     SET_ETH_ACCOUNTS_ACTION,
     SET_ETH_NETWORK_ID_ACTION,
@@ -37,6 +38,11 @@ export const appReducer = (
             return {
                 ...state,
                 currAccountBalance: action.accountBalance,
+            }
+        case ADD_NEW_LOAN_ACTION:
+            return {
+                ...state,
+                loans: [...state.loans, action.loan],
             }
     }
     return state

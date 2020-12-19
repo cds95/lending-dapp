@@ -17,7 +17,11 @@ contract Loaner {
 
     event FundsDeposited(address indexed from, uint256 value);
     event FundsWithdrawn(address indexed from, uint256 amountWithdrawn);
-    event LoanAsked(address indexed borrower, uint256 loanAmount);
+    event LoanAsked(
+        uint256 loanId,
+        address indexed borrower,
+        uint256 loanAmount
+    );
     event LoanProvided(address indexed lender);
     event LoanPaidOff(address indexed borrower);
 
@@ -63,9 +67,9 @@ contract Loaner {
         newLoan.borrower = msg.sender;
         newLoan.amount = loanAmountInWei;
         loans.push(newLoan);
+        emit LoanAsked(idCounter, msg.sender, loanAmountInWei);
         numLoans = numLoans + 1;
         idCounter = idCounter + 1;
-        emit LoanAsked(msg.sender, loanAmountInWei);
     }
 
     function giveLoan(uint256 loanId) public {

@@ -1,10 +1,16 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import ApiUtils from '../src/ApiUtils'
-import {CardContent, Card, LinearProgress, Typography}from '@material-ui/core'
+import {
+    CardContent,
+    Card,
+    LinearProgress,
+    Typography,
+} from '@material-ui/core'
 import './App.scss'
 import { store } from './redux'
 import {
+    getAddNewLoanAction,
     getSetAccountBalanceAction,
     getSetEthAccountsAction,
     getSetEthNetworkIdAction,
@@ -12,6 +18,7 @@ import {
 } from './redux/actions'
 import { LoanList } from './components/LoanList/LoanList'
 import { AppHeader } from './components/AppHeader'
+import { ILoan } from '../types/models'
 
 interface IAppState {
     isLoadingApp: boolean
@@ -39,6 +46,20 @@ class App extends React.Component<{}, IAppState> {
             )
             store.dispatch(getSetLoansAction(loans))
             store.dispatch(getSetAccountBalanceAction(accountBalance))
+
+            ApiUtils.listenToOnLoanAskedEvent(
+                networkId.toString(),
+                ({ returnValues }) => {
+                    const { borrower, loanAmount, loanId } = returnValues
+                    const loan: ILoan = {
+                        id: loanId,
+                        borrowerAddress: borrower,
+                        amount: ApiUtils.convertWeiToEther(loanAmount),
+                        hasBeenSettled: false,
+                    }
+                    store.dispatch(getAddNewLoanAction(loan))
+                }
+            )
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -51,10 +72,12 @@ class App extends React.Component<{}, IAppState> {
     render() {
         const { isLoadingApp } = this.state
         if (isLoadingApp) {
-            return (<div className="app--loading"> 
-              <Typography variant="h3">Loading Lending Tree</Typography> 
-              <LinearProgress className="app--loading__indicator" />
-            </div>)
+            return (
+                <div className="app--loading">
+                    <Typography variant="h3">Loading Lending Tree</Typography>
+                    <LinearProgress className="app--loading__indicator" />
+                </div>
+            )
         }
         return (
             <Provider store={store}>
