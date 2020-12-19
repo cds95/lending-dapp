@@ -28,6 +28,21 @@ export class ApiUtils {
         }
     }
 
+    public listenToFundsDepositedEvent(
+        networkdId: string,
+        fn: (e: any) => void
+    ) {
+        this.checkWeb3Initialized()
+        if (this.web3) {
+            const contract = this.getContract(networkdId)
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                contract.address
+            )
+            instance.events.FundsDeposited().on('data', fn)
+        }
+    }
+
     public async getAccounts(): Promise<string[]> {
         this.checkWeb3Initialized()
         if (this.web3) {
