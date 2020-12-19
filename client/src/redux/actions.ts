@@ -24,3 +24,11 @@ export const getSetLoansAction = (loans: ILoan[]): IReduxAction => {
         loans
     }
 }
+
+export const SET_ACCOUNT_BALANCE_ACTION = "SET_ACCOUNT_BALANCE";
+export const getSetAccountBalanceAction = (accountBalance: number): IReduxAction => {
+    return {
+        type: SET_ACCOUNT_BALANCE_ACTION,
+        accountBalance
+    }
+}

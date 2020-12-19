@@ -13,4 +13,5 @@ export interface IAppReducerState {
     networkId: string | null,
     accounts: string[]
     loans: ILoan[]
+    currAccountBalance: number
 }

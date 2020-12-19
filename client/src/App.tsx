@@ -1,30 +1,20 @@
 import React from "react";
 import { Provider } from "react-redux"
 import ApiUtils from "../src/ApiUtils"
-import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Button from "@material-ui/core/Button";
 import "./App.scss";
 import { store } from "./redux";
-import { getSetEthAccountsAction, getSetEthNetworkIdAction, getSetLoansAction } from "./redux/actions";
+import { getSetAccountBalanceAction, getSetEthAccountsAction, getSetEthNetworkIdAction, getSetLoansAction } from "./redux/actions";
 import { LoanList } from "./components/LoanList/LoanList";
-import { AskLoanModal } from "./components/AskLoanModal/AskLoanModal";
+import { AppHeader } from "./components/AppHeader";
 
 interface IAppState {
   isLoadingApp: boolean
-  isAskForLoanModalOpen: boolean 
 }
 
 class App extends React.Component<{}, IAppState> {
-  state: IAppState = { isLoadingApp: true, isAskForLoanModalOpen: false };
-
-  constructor(props: any) {
-    super(props)
-
-    this.openAskLoanModal = this.openAskLoanModal.bind(this)
-    this.closeAskLoanModal = this.closeAskLoanModal.bind(this)
-  }
+  state: IAppState = { isLoadingApp: true };
 
   componentDidMount = async () => {
     try {
@@ -39,7 +29,9 @@ class App extends React.Component<{}, IAppState> {
       this.setState({isLoadingApp: false})
       
       const loans = await ApiUtils.getLoans(networkId.toString())
+      const accountBalance = await ApiUtils.getBalanceInContract(networkId.toString(), accounts[0])
       store.dispatch(getSetLoansAction(loans))
+      store.dispatch(getSetAccountBalanceAction(accountBalance))
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -48,28 +40,16 @@ class App extends React.Component<{}, IAppState> {
       console.error(error);
     }
   };
-  
-  openAskLoanModal() {
-    this.setState({isAskForLoanModalOpen: true})
-  }
-
-  closeAskLoanModal() {
-    this.setState({isAskForLoanModalOpen: false})
-  }
 
   render() {
-    const {isLoadingApp, isAskForLoanModalOpen} = this.state
+    const {isLoadingApp } = this.state
     if (isLoadingApp) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
       <Provider store={store}>
         <div className="app">
-          <div className="app__header">
-              <Typography variant="h3">Lending Tree</Typography>
-              <Button variant="contained" onClick={this.openAskLoanModal}>Get Loan</Button>
-              <AskLoanModal isOpen={isAskForLoanModalOpen} onClose={this.closeAskLoanModal}/>
-            </div>
+         <AppHeader />
           <Card className="app__content">
             <CardContent>
               <LoanList />

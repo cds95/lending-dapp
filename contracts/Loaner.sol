@@ -19,6 +19,10 @@ contract Loaner {
         balances[msg.sender] += msg.value;
     }
 
+    function getBalance(address a) public view returns (uint256) {
+        return balances[a];
+    }
+
     function withdrawBalance(uint256 amount) public {
         if (amount <= balances[msg.sender]) {
             uint256 currBalance = balances[msg.sender];

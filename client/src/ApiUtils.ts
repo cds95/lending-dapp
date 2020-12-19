@@ -59,6 +59,44 @@ export class ApiUtils {
         }
     }
 
+    public async getBalanceInContract(networkId: string, account: string): Promise<number> {
+        this.checkWeb3Initialized()
+        const deployedLoanerContract = this.getContract(networkId)
+        if(this.web3) {
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                deployedLoanerContract.address
+              )
+            const balanceInWei = await instance.methods.getBalance(account).call();
+            const balanceInEther: number = parseFloat(this.web3.utils.fromWei(balanceInWei, "ether"))
+            return balanceInEther
+        }
+        return -1
+    }
+
+    public async topupBalance(networkId: string, account: string, amountOfEther: number): Promise<void> {
+        this.checkWeb3Initialized()
+        const deployedLoanerContract = this.getContract(networkId)
+        if(this.web3) {
+            const currBalanceInWei = await this.web3.eth.getBalance(account)
+            const currBalanceInEther = parseInt(this.web3.utils.fromWei(currBalanceInWei, "ether"))
+            if(amountOfEther > currBalanceInEther) {
+                throw new Error(`Cannot topup balance as account ${account} has insufficient funds.`)
+            }
+
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                deployedLoanerContract.address
+              )
+
+            await instance.methods.inputFunds().send({
+                from: account,
+                value: this.web3.utils.toWei(amountOfEther.toString(), "ether")
+            })
+
+        }
+    }
+
     private getContract(networkId: string): any {
         return LoanerContract.networks[networkId]
     }
