@@ -1,1 +1,1 @@
-export const CURRENCY = "ETH"
+export const CURRENCY = 'ETH'

@@ -1,6 +1,6 @@
-import { combineReducers } from "redux";
-import { appReducer } from "./app";
+import { combineReducers } from 'redux'
+import { appReducer } from './app'
 
 export const reducers = combineReducers({
-    app: appReducer
+    app: appReducer,
 })

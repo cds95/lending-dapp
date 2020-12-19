@@ -1,17 +1,17 @@
 .app__header {
-  display: flex;
-  margin-bottom: 25px;
+    display: flex;
+    margin-bottom: 25px;
 
-  > h3 {
-    flex: 1;
-  }
+    > h3 {
+        flex: 1;
+    }
 }
 
 .app__header-right {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .app__header-right-item:not(:last-child) {
-  margin-right: 20px !important;
+    margin-right: 20px !important;
 }
