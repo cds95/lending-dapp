@@ -3,6 +3,7 @@ import getWeb3 from './getWeb3'
 import LoanerContract from './contracts/Loaner.json'
 import { ILoan } from '../types/models'
 import { convertApiResponseToLoans } from './AppUtils'
+import { BigNumber } from "bignumber.js";
 
 export class ApiUtils {
     private web3: Web3 | null
@@ -48,7 +49,7 @@ export class ApiUtils {
     public async askForLoan(
         networkId: string,
         account: string,
-        amount: number
+        amountInEther: number
     ): Promise<void> {
         this.checkWeb3Initialized()
         const deployedLoanerContract = this.getContract(networkId)
@@ -57,7 +58,9 @@ export class ApiUtils {
                 LoanerContract.abi as any,
                 deployedLoanerContract.address
             )
-            await instance.methods.askForLoan(amount).send({
+            const amountInWei = this.convertEtherToWei(amountInEther)
+            const bigNum = new BigNumber(`${amountInWei}`)
+            await instance.methods.askForLoan(bigNum).send({
                 from: account,
             })
         }
@@ -94,25 +97,39 @@ export class ApiUtils {
         const deployedLoanerContract = this.getContract(networkId)
         if (this.web3) {
             const currBalanceInWei = await this.web3.eth.getBalance(account)
-            const currBalanceInEther = parseInt(
-                this.web3.utils.fromWei(currBalanceInWei, 'ether')
-            )
+            const currBalanceInEther = this.convertWeiToEther(parseInt(currBalanceInWei))
             if (amountOfEther > currBalanceInEther) {
                 throw new Error(
                     `Cannot topup balance as account ${account} has insufficient funds.`
                 )
             }
-
             const instance = new this.web3.eth.Contract(
                 LoanerContract.abi as any,
                 deployedLoanerContract.address
             )
-
             await instance.methods.inputFunds().send({
                 from: account,
-                value: this.web3.utils.toWei(amountOfEther.toString(), 'ether'),
+                value: this.convertEtherToWei(amountOfEther).toString(),
             })
         }
+    }
+
+    public convertEtherToWei(ether: number): number {
+        this.checkWeb3Initialized()
+        if(this.web3) {
+            return parseInt(this.web3.utils.toWei(ether.toString(), 'ether'))
+        }
+        return -1
+    }
+
+    public convertWeiToEther(wei: number): number {
+        this.checkWeb3Initialized()
+        if(this.web3) {
+            return parseFloat(
+                this.web3.utils.fromWei(wei.toString(), 'ether')
+            )
+        }
+        return -1
     }
 
     private getContract(networkId: string): any {

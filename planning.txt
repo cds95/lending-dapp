@@ -35,3 +35,11 @@
       await instance.methods.askForLoan(30000).send({
         from: accounts[0]
       })
+
+# Remaining Features
+ 
+ - Introduce events
+ - Throw errors.  Look at the required keyword
+ - User must be able to withdraw loaned amount 
+ - User must be able to cancel loan 
+ - Introduce interest rates

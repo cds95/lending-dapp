@@ -15,8 +15,15 @@ contract Loaner {
     uint256 private idCounter;
     mapping(address => uint256) balances;
 
+    event FundsDeposited(address indexed from, uint256 value);
+    event FundsWithdrawn(address indexed from, uint256 amountWithdrawn);
+    event LoanAsked(address indexed borrower, uint256 loanAmount);
+    event LoanProvided(address indexed lender);
+    event LoanPaidOff(address indexed borrower);
+
     function inputFunds() public payable {
         balances[msg.sender] += msg.value;
+        emit FundsDeposited(msg.sender, msg.value);
     }
 
     function getBalance(address a) public view returns (uint256) {
@@ -28,6 +35,7 @@ contract Loaner {
             uint256 currBalance = balances[msg.sender];
             balances[msg.sender] -= amount;
             msg.sender.transfer(amount);
+            emit FundsWithdrawn(msg.sender, amount);
         }
     }
 
@@ -57,8 +65,7 @@ contract Loaner {
         loans.push(newLoan);
         numLoans = numLoans + 1;
         idCounter = idCounter + 1;
-
-        // TODO:  Emit event saying new loan has appeared
+        emit LoanAsked(msg.sender, loanAmountInWei);
     }
 
     function giveLoan(uint256 loanId) public {
@@ -69,8 +76,7 @@ contract Loaner {
             loan.lender = msg.sender;
 
             // TODO: loan.interest = find out how to send data from UI to do this.
-            // TODO:  Emit event saying loan has been provided and needs to be withdrawn.
-            //
+            emit LoanProvided(msg.sender);
         }
     }
 
@@ -82,7 +88,6 @@ contract Loaner {
             balances[lender] += loan.amount;
             loan.hasBeenSettled = true;
         }
-
-        // TODO:  Emit event saying loan has been paid
+        emit LoanPaidOff(msg.sender);
     }
 }
