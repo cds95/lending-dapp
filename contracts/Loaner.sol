@@ -30,8 +30,8 @@ contract Loaner {
         emit FundsDeposited(msg.sender, msg.value);
     }
 
-    function getBalance(address a) public view returns (uint256) {
-        return balances[a];
+    function getBalance() public view returns (uint256) {
+        return balances[msg.sender];
     }
 
     function withdrawBalance(uint256 amount) public {

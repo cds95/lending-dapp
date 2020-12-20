@@ -135,8 +135,10 @@ export class ApiUtils {
                 deployedLoanerContract.address
             )
             const balanceInWei = await instance.methods
-                .getBalance(account)
-                .call()
+                .getBalance()
+                .call({
+                    from: account
+                })
             const balanceInEther: number = parseFloat(
                 this.web3.utils.fromWei(balanceInWei, 'ether')
             )
