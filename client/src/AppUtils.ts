@@ -23,4 +23,5 @@ export const convertApiResponseToLoans = (response: any): ILoan[] => {
     return loans
 }
 
-export const isNotEmptyAddress = (address?: string): boolean => !!address && address !== "0x0000000000000000000000000000000000000000"
+export const isNotEmptyAddress = (address?: string): boolean =>
+    !!address && address !== '0x0000000000000000000000000000000000000000'

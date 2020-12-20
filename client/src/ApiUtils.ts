@@ -16,7 +16,10 @@ export class ApiUtils {
         this.web3 = await getWeb3()
     }
 
-    public listenToOnLoanProvidedEvent(networkdId: string, fn: (e: any) => void) {
+    public listenToOnLoanProvidedEvent(
+        networkdId: string,
+        fn: (e: any) => void
+    ) {
         this.checkWeb3Initialized()
         if (this.web3) {
             const contract = this.getContract(networkdId)
@@ -37,6 +40,21 @@ export class ApiUtils {
                 contract.address
             )
             instance.events.LoanAsked().on('data', fn)
+        }
+    }
+
+    public listenToOnBalanceWithdrawnEvent(
+        networkdId: string,
+        fn: (e: any) => void
+    ) {
+        this.checkWeb3Initialized()
+        if (this.web3) {
+            const contract = this.getContract(networkdId)
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                contract.address
+            )
+            instance.events.FundsWithdrawn().on('data', fn)
         }
     }
 
@@ -83,6 +101,26 @@ export class ApiUtils {
             return convertApiResponseToLoans(response)
         }
         return []
+    }
+
+    public async withdrawBalance(
+        networkdId: string,
+        account: string,
+        amountInEther: number
+    ): Promise<void> {
+        this.checkWeb3Initialized()
+        const deployedLoanerContract = this.getContract(networkdId)
+        if (this.web3) {
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                deployedLoanerContract.address
+            )
+            const amountInWei = this.convertEtherToWei(amountInEther)
+            const bigNum = new BigNumber(`${amountInWei}`)
+            await instance.methods.withdrawBalance(bigNum).send({
+                from: account,
+            })
+        }
     }
 
     public async askForLoan(
@@ -134,11 +172,9 @@ export class ApiUtils {
                 LoanerContract.abi as any,
                 deployedLoanerContract.address
             )
-            const balanceInWei = await instance.methods
-                .getBalance()
-                .call({
-                    from: account
-                })
+            const balanceInWei = await instance.methods.getBalance().call({
+                from: account,
+            })
             const balanceInEther: number = parseFloat(
                 this.web3.utils.fromWei(balanceInWei, 'ether')
             )

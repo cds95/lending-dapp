@@ -63,29 +63,18 @@ class App extends React.Component<{}, IAppState> {
 
             ApiUtils.listenToFundsDepositedEvent(
                 networkId.toString(),
-                async () => {
-                    const updatedAccountBalance = await ApiUtils.getBalanceInContract(
-                        networkId.toString(),
-                        accounts[0]
-                    )
-                    store.dispatch(
-                        getSetAccountBalanceAction(updatedAccountBalance)
-                    )
-                }
+                async () => this.updateBalance(networkId, accounts[0])
             )
 
             ApiUtils.listenToOnLoanProvidedEvent(
-              networkId.toString(),
-              async () => {
-                  const updatedAccountBalance = await ApiUtils.getBalanceInContract(
-                      networkId.toString(),
-                      accounts[0]
-                  )
-                  store.dispatch(
-                      getSetAccountBalanceAction(updatedAccountBalance)
-                  )
-              }
-          )
+                networkId.toString(),
+                async () => this.updateBalance(networkId, accounts[0])
+            )
+
+            ApiUtils.listenToOnBalanceWithdrawnEvent(
+                networkId.toString(),
+                async () => this.updateBalance(networkId, accounts[0])
+            )
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -93,6 +82,14 @@ class App extends React.Component<{}, IAppState> {
             )
             console.error(error)
         }
+    }
+
+    async updateBalance(networkId: number, account: string) {
+        const updatedAccountBalance = await ApiUtils.getBalanceInContract(
+            networkId.toString(),
+            account
+        )
+        store.dispatch(getSetAccountBalanceAction(updatedAccountBalance))
     }
 
     render() {

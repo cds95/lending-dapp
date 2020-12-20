@@ -16,7 +16,7 @@ interface ILoanListRowProps {
 
 interface ILoanListRowPropsReduxStateProps {
     currUserAccount: string
-    networkId: string | null 
+    networkId: string | null
 }
 
 type TLoanListRowProps = ILoanListRowProps & ILoanListRowPropsReduxStateProps
@@ -33,7 +33,10 @@ export const LoanListRowComp: React.FunctionComponent<TLoanListRowProps> = ({
     const { borrowerAddress, lenderAddress, id } = loan
 
     let button
-    if (isNotEmptyAddress(lenderAddress) && currUserAccount === borrowerAddress) {
+    if (
+        isNotEmptyAddress(lenderAddress) &&
+        currUserAccount === borrowerAddress
+    ) {
         button = (
             <Button variant="outlined" color="primary">
                 Pay back loan
@@ -45,12 +48,13 @@ export const LoanListRowComp: React.FunctionComponent<TLoanListRowProps> = ({
                 Withdraw Loan
             </Button>
         )
-    } else if(lenderAddress !== currUserAccount) {
+    } else if (lenderAddress !== currUserAccount) {
         button = (
             <Button
                 variant="outlined"
                 color="primary"
-                onClick={() => networkId && 
+                onClick={() =>
+                    networkId &&
                     ApiUtils.giveLoan(
                         networkId.toString(),
                         currUserAccount,

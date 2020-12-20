@@ -6,6 +6,7 @@ import { IReduxAppState } from '../../../types/redux'
 import './AppHeader.scss'
 import { DepositFundsModal } from '../DepositFundsModal'
 import { CURRENCY } from '../../constants'
+import { WithdrawBalanceModal } from '../WithdrawBalanceModal/WithdrawBalanceModal'
 
 interface IAppHeaderReduxStateProps {
     accountBalance: number
@@ -20,11 +21,17 @@ export const AppHeaderComp: React.FunctionComponent<TAppHeaderProps> = ({
     const [isDepositFundsModalOpen, setIsDepositFundsModalOpen] = useState(
         false
     )
+    const [
+        isWithdrawBalanceModalOpen,
+        setIsWithdrawBalanceModalOpen,
+    ] = useState(false)
 
     const openAskForLoanModal = () => setIsAskForLoanModalOpen(true)
     const closeAskForLoanModal = () => setIsAskForLoanModalOpen(false)
     const openDepositFundsModal = () => setIsDepositFundsModalOpen(true)
     const closeDepositFundsModal = () => setIsDepositFundsModalOpen(false)
+    const openWithdrawBalanceModal = () => setIsWithdrawBalanceModalOpen(true)
+    const closeWithdrawBalanceModal = () => setIsWithdrawBalanceModalOpen(false)
 
     return (
         <div className="app__header">
@@ -48,6 +55,14 @@ export const AppHeaderComp: React.FunctionComponent<TAppHeaderProps> = ({
                 >
                     Deposit Funds
                 </Button>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={openWithdrawBalanceModal}
+                    className="app__header-right-item"
+                >
+                    Withdraw Balance
+                </Button>
             </div>
             <DepositFundsModal
                 isOpen={isDepositFundsModalOpen}
@@ -56,6 +71,10 @@ export const AppHeaderComp: React.FunctionComponent<TAppHeaderProps> = ({
             <AskLoanModal
                 isOpen={isAskForLoanModalOpen}
                 onClose={closeAskForLoanModal}
+            />
+            <WithdrawBalanceModal
+                isOpen={isWithdrawBalanceModalOpen}
+                onClose={closeWithdrawBalanceModal}
             />
         </div>
     )
