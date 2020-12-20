@@ -28,7 +28,7 @@ export const AppHeaderComp: React.FunctionComponent<TAppHeaderProps> = ({
 
     return (
         <div className="app__header">
-            <Typography variant="h3">Lending Tree</Typography>
+            <Typography variant="h3">Lending App</Typography>
             <div className="app__header-right">
                 <Typography variant="h5" className="app__header-right-item">
                     Account Balance: {accountBalance} {CURRENCY}

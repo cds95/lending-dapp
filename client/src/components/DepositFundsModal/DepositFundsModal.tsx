@@ -48,7 +48,7 @@ export const DepositFundsModalComp: React.FunctionComponent<TDepositFundsModalPr
 
     return (
         <Dialog open={isOpen} onClose={onClose}>
-            <DialogTitle>Deposit Funds to Lending Tree</DialogTitle>
+            <DialogTitle>Deposit Funds to Lending App</DialogTitle>
             <DialogContent>
                 <FormGroup>
                     <FormLabel>

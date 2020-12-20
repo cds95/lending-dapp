@@ -100,7 +100,7 @@ class App extends React.Component<{}, IAppState> {
         if (isLoadingApp) {
             return (
                 <div className="app--loading">
-                    <Typography variant="h3">Loading Lending Tree</Typography>
+                    <Typography variant="h3">Loading Lending App</Typography>
                     <LinearProgress className="app--loading__indicator" />
                 </div>
             )
