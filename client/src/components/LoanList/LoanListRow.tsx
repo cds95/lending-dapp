@@ -93,7 +93,9 @@ export const LoanListRowComp: React.FunctionComponent<TLoanListRowProps> = ({
                 text={CURRENCY}
                 className="loan-list-row__item"
             />
-            <div className="loan-list-row__button-wrapper">{button}</div>
+            {!hasBeenSettled && (
+                <div className="loan-list-row__button-wrapper">{button}</div>
+            )}
         </li>
     )
 }

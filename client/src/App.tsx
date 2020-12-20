@@ -1,12 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import ApiUtils from '../src/ApiUtils'
-import {
-    CardContent,
-    Card,
-    LinearProgress,
-    Typography,
-} from '@material-ui/core'
+import { LinearProgress, Typography } from '@material-ui/core'
 import './App.scss'
 import { store } from './redux'
 import {
@@ -16,9 +11,9 @@ import {
     getSetEthNetworkIdAction,
     getSetLoansAction,
 } from './redux/actions'
-import { LoanList } from './components/LoanList/LoanList'
 import { AppHeader } from './components/AppHeader'
 import { ILoan } from '../types/models'
+import { AppTabs } from './components/AppTabs'
 
 interface IAppState {
     isLoadingApp: boolean
@@ -106,11 +101,7 @@ class App extends React.Component<{}, IAppState> {
             <Provider store={store}>
                 <div className="app">
                     <AppHeader />
-                    <Card className="app__content">
-                        <CardContent>
-                            <LoanList />
-                        </CardContent>
-                    </Card>
+                    <AppTabs />
                 </div>
             </Provider>
         )
