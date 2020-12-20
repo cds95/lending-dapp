@@ -30,22 +30,32 @@ export const LoanListRowComp: React.FunctionComponent<TLoanListRowProps> = ({
     const elemClassName = clsx('loan-list-row', {
         [`${className}`]: !!className,
     })
-    const { borrowerAddress, lenderAddress, id } = loan
-
+    const { borrowerAddress, lenderAddress, id, hasBeenSettled } = loan
     let button
     if (
         isNotEmptyAddress(lenderAddress) &&
         currUserAccount === borrowerAddress
     ) {
         button = (
-            <Button variant="outlined" color="primary">
+            <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                    networkId &&
+                    ApiUtils.payoffLoan(
+                        networkId.toString(),
+                        currUserAccount,
+                        parseInt(id)
+                    )
+                }
+            >
                 Pay back loan
             </Button>
         )
     } else if (currUserAccount === borrowerAddress) {
         button = (
             <Button variant="outlined" color="primary">
-                Withdraw Loan
+                Cancel Loan
             </Button>
         )
     } else if (lenderAddress !== currUserAccount) {

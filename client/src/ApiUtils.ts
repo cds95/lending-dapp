@@ -103,6 +103,24 @@ export class ApiUtils {
         return []
     }
 
+    public async payoffLoan(
+        networkdId: string,
+        account: string,
+        loanId: number
+    ): Promise<void> {
+        this.checkWeb3Initialized()
+        const deployedLoanerContract = this.getContract(networkdId)
+        if (this.web3) {
+            const instance = new this.web3.eth.Contract(
+                LoanerContract.abi as any,
+                deployedLoanerContract.address
+            )
+            await instance.methods.payoffLoan(loanId).send({
+                from: account,
+            })
+        }
+    }
+
     public async withdrawBalance(
         networkdId: string,
         account: string,

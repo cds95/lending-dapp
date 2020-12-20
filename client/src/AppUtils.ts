@@ -6,7 +6,7 @@ export const convertApiResponseToLoans = (response: any): ILoan[] => {
     const loanAmountsInWei: string[] = response['1']
     const borrowers: string[] = response['2']
     const lenders: string[] = response['3']
-    const hasBeenSetteldStates: string[] = response['4']
+    const hasBeenSettledStates: boolean[] = response['4']
     const loans: ILoan[] = []
     for (let i = 0; i < loanAmountsInWei.length; i++) {
         const loanAmountInEther = ApiUtils.convertWeiToEther(
@@ -17,7 +17,7 @@ export const convertApiResponseToLoans = (response: any): ILoan[] => {
             borrowerAddress: borrowers[i],
             amount: loanAmountInEther,
             lenderAddress: lenders[i],
-            hasBeenSettled: hasBeenSetteldStates[i] === 'true',
+            hasBeenSettled: hasBeenSettledStates[i],
         }
     }
     return loans
