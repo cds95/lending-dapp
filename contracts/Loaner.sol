@@ -35,12 +35,13 @@ contract Loaner {
     }
 
     function withdrawBalance(uint256 amount) public {
-        if (amount <= balances[msg.sender]) {
-            uint256 currBalance = balances[msg.sender];
-            balances[msg.sender] -= amount;
-            msg.sender.transfer(amount);
-            emit FundsWithdrawn(msg.sender, amount);
-        }
+        require(
+            amount <= balances[msg.sender],
+            "Cannot withdraw an amount greater than current balance."
+        );
+        balances[msg.sender] -= amount;
+        msg.sender.transfer(amount);
+        emit FundsWithdrawn(msg.sender, amount);
     }
 
     function getLoans()
@@ -86,24 +87,28 @@ contract Loaner {
 
     function giveLoan(uint256 loanId) public {
         Loan storage loan = loans[loanId];
-        if (balances[msg.sender] >= loan.amount) {
-            balances[loan.borrower] += loan.amount;
-            balances[msg.sender] -= loan.amount;
-            loan.lender = msg.sender;
+        require(
+            balances[msg.sender] >= loan.amount,
+            "Cannot give loan as address balance is less than the loan amount."
+        );
+        balances[loan.borrower] += loan.amount;
+        balances[msg.sender] -= loan.amount;
+        loan.lender = msg.sender;
 
-            // TODO: loan.interest = find out how to send data from UI to do this.
-            emit LoanProvided(msg.sender);
-        }
+        // TODO: loan.interest = find out how to send data from UI to do this.
+        emit LoanProvided(msg.sender);
     }
 
     function payoffLoan(uint256 loanId) public {
         Loan storage loan = loans[loanId];
-        if (msg.sender == loan.borrower) {
-            address lender = loan.lender;
-            balances[msg.sender] -= loan.amount;
-            balances[lender] += loan.amount;
-            loan.hasBeenSettled = true;
-        }
+        require(
+            msg.sender == loan.borrower,
+            "Only the borrower can pay off the loan."
+        );
+        address lender = loan.lender;
+        balances[msg.sender] -= loan.amount;
+        balances[lender] += loan.amount;
+        loan.hasBeenSettled = true;
         emit LoanPaidOff(msg.sender);
     }
 }
