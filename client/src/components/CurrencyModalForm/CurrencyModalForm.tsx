@@ -4,12 +4,16 @@ import {
     DialogContent,
     DialogTitle,
     FormGroup,
-    FormLabel,
     TextField,
     Typography,
+    Select,
+    MenuItem,
+    InputLabel,
+    FormControl,
 } from '@material-ui/core'
 import { EEtherCurrencyUnit } from '../../types'
 import React, { useState } from 'react'
+import './CurrencyModalForm.scss'
 
 interface ICurrencyModalFormProps {
     title: string
@@ -24,25 +28,45 @@ export const CurrencyModalForm: React.FunctionComponent<ICurrencyModalFormProps>
     onSubmit,
     submitLabel,
 }) => {
-    const [numEthToDeposit, setNumEthToDeposit] = useState('')
+    const [amount, setAmount] = useState('')
     const [currencyUnit, setCurrencyUnit] = useState(EEtherCurrencyUnit.ETHER)
     const handleOnSubmit = () => {
-        onSubmit(numEthToDeposit, currencyUnit)
+        onSubmit(amount, currencyUnit)
+    }
+    const handleOnUnitChange = (e: any) => {
+        setCurrencyUnit(e.target.value as EEtherCurrencyUnit)
     }
     return (
         <div className="currency-modal-form">
             <DialogTitle>{title}</DialogTitle>
+
             <DialogContent>
-                <FormGroup>
-                    <FormLabel>
-                        <Typography variant="body1">{formLabel}</Typography>
+                <Typography variant="body1">{formLabel}</Typography>
+                <div className="currency-modal-form__content">
+                    <FormGroup className="currency-modal-form__amount-field">
                         <TextField
+                            placeholder="Amount"
                             type="number"
-                            value={numEthToDeposit || ''}
-                            onChange={(e) => setNumEthToDeposit(e.target.value)}
+                            value={amount || ''}
+                            onChange={(e) => setAmount(e.target.value)}
                         ></TextField>
-                    </FormLabel>
-                </FormGroup>
+                    </FormGroup>
+                    <FormControl>
+                        <InputLabel>Unit</InputLabel>
+                        <Select
+                            onChange={handleOnUnitChange}
+                            value={currencyUnit}
+                        >
+                            {Object.values(EEtherCurrencyUnit).map(
+                                (currencyUnit) => (
+                                    <MenuItem value={currencyUnit}>
+                                        {currencyUnit}
+                                    </MenuItem>
+                                )
+                            )}
+                        </Select>
+                    </FormControl>
+                </div>
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={handleOnSubmit}>
