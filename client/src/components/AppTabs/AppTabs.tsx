@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { IReduxAppState } from '../../types/redux'
-import { CardContent, Card, Tabs, Tab } from '@material-ui/core'
+import { CardContent, Card, Tabs, Tab, Typography } from '@material-ui/core'
 import { ILoan } from '../../types/models'
 import { LoanList } from '../LoanList'
 import {
@@ -62,7 +62,10 @@ export const AppTabsComp: React.FunctionComponent<IAppTabsCompReduxStateProps> =
             </Tabs>
             <Card className="app__content">
                 <CardContent>
-                    <LoanList loans={displayedLoans} />
+                    {
+                        displayedLoans.length > 0 ? <LoanList loans={displayedLoans} /> : <Typography variant="h5">No loans to show</Typography>
+                    }
+                    
                 </CardContent>
             </Card>
         </div>
