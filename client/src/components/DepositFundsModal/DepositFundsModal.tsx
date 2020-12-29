@@ -1,19 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { IReduxAction, IReduxAppState } from '../../../types/redux'
-import {
-    FormGroup,
-    Typography,
-    TextField,
-    FormLabel,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-} from '@material-ui/core'
+import { Dialog } from '@material-ui/core'
 import ApiUtils from '../../ApiUtils'
+import { CurrencyModalForm } from '../CurrencyModalForm'
 
 interface IDepositFundsModalOwnProps {
     isOpen: boolean
@@ -37,39 +28,21 @@ export const DepositFundsModalComp: React.FunctionComponent<TDepositFundsModalPr
     account,
     networkId,
 }) => {
-    const [numEthToDeposit, setNumEthToDeposit] = useState("")
-
-    const handleOnSubmit = () => {
+    const handleOnSubmit = (amount: string, currency: string) => {
         if (networkId) {
-            ApiUtils.topupBalance(networkId, account, numEthToDeposit)
+            ApiUtils.topupBalance(networkId, account, amount)
             onClose()
         }
     }
 
     return (
         <Dialog open={isOpen} onClose={onClose}>
-            <DialogTitle>Deposit Funds to Lending App</DialogTitle>
-            <DialogContent>
-                <FormGroup>
-                    <FormLabel>
-                        <Typography variant="body1">
-                            How much do you want to deposit?
-                        </Typography>
-                        <TextField
-                            type="number"
-                            value={numEthToDeposit || ''}
-                            onChange={(e) =>
-                                setNumEthToDeposit(e.target.value)
-                            }
-                        ></TextField>
-                    </FormLabel>
-                </FormGroup>
-            </DialogContent>
-            <DialogActions>
-                <Button variant="contained" onClick={handleOnSubmit}>
-                    Deposit!
-                </Button>
-            </DialogActions>
+            <CurrencyModalForm
+                title="Deposit Funds to Lending App"
+                formLabel="How much do you want to deposit?"
+                submitLabel="Deposit!"
+                onSubmit={handleOnSubmit}
+            />
         </Dialog>
     )
 }

@@ -209,7 +209,7 @@ export class ApiUtils {
         if (this.web3) {
             const amountInWei = this.convertEtherToWei(amountOfEther)
             const currBalanceInWei = await this.web3.eth.getBalance(account)
-            const currBalanceInWeiBigNum = new BigNumber(currBalanceInWei);
+            const currBalanceInWeiBigNum = new BigNumber(currBalanceInWei)
             if (amountInWei.isGreaterThan(currBalanceInWeiBigNum)) {
                 throw new Error(
                     `Cannot topup balance as account ${account} has insufficient funds.`
@@ -230,9 +230,9 @@ export class ApiUtils {
         this.checkWeb3Initialized()
         if (this.web3) {
             const wei = this.web3.utils.toWei(ether, 'ether')
-            return new BigNumber(wei);
+            return new BigNumber(wei)
         }
-        return new BigNumber("0")
+        return new BigNumber('0')
     }
 
     public convertWeiToEther(wei: number): number {

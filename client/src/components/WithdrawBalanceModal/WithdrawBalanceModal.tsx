@@ -14,6 +14,7 @@ import {
     Button,
 } from '@material-ui/core'
 import ApiUtils from '../../ApiUtils'
+import { CurrencyModalForm } from '../CurrencyModalForm'
 
 interface IWithdrawBalanceModalOwnProps {
     isOpen: boolean
@@ -37,39 +38,21 @@ export const WithdrawBalanceModalComp: React.FunctionComponent<TWithdrawBalanceM
     account,
     networkId,
 }) => {
-    const [amountToWithdraw, setAmountToWithdraw] = useState("")
-
-    const handleOnWithdraw = () => {
+    const handleOnWithdraw = (amount: string, currencyUnit: string) => {
         if (networkId) {
-            ApiUtils.withdrawBalance(networkId, account, amountToWithdraw)
+            ApiUtils.withdrawBalance(networkId, account, amount)
             onClose()
         }
     }
 
     return (
         <Dialog open={isOpen} onClose={onClose}>
-            <DialogTitle>Withdraw Balance</DialogTitle>
-            <DialogContent>
-                <FormGroup>
-                    <FormLabel>
-                        <Typography variant="body1">
-                            Enter how much you want to withdraw.
-                        </Typography>
-                        <TextField
-                            type="number"
-                            value={amountToWithdraw || ''}
-                            onChange={(e) =>
-                                setAmountToWithdraw(e.target.value)
-                            }
-                        ></TextField>
-                    </FormLabel>
-                </FormGroup>
-            </DialogContent>
-            <DialogActions>
-                <Button variant="contained" onClick={handleOnWithdraw}>
-                    Withdraw
-                </Button>
-            </DialogActions>
+            <CurrencyModalForm
+                title="Withdraw Balance"
+                formLabel="Enter how much you want to withdraw."
+                submitLabel="Withdraw"
+                onSubmit={handleOnWithdraw}
+            />
         </Dialog>
     )
 }

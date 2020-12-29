@@ -1,19 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { IReduxAction, IReduxAppState } from '../../../types/redux'
-import {
-    FormGroup,
-    Typography,
-    TextField,
-    FormLabel,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-} from '@material-ui/core'
+import { Dialog } from '@material-ui/core'
 import ApiUtils from '../../ApiUtils'
+import { CurrencyModalForm } from '../CurrencyModalForm'
 
 interface IAskLoanModalOwnProps {
     isOpen: boolean
@@ -37,39 +28,21 @@ export const AskLoanModalComp: React.FunctionComponent<TAskLoanModalProps> = ({
     account,
     networkId,
 }) => {
-    const [loanAmount, setLoanAmount] = useState("")
-
-    const handleOnLoanSubmit = () => {
+    const handleOnLoanSubmit = (amount: string, currencyUnit: string) => {
         if (networkId) {
-            ApiUtils.askForLoan(networkId, account, loanAmount)
+            ApiUtils.askForLoan(networkId, account, amount)
             onClose()
         }
     }
 
     return (
         <Dialog open={isOpen} onClose={onClose}>
-            <DialogTitle>Loan Application</DialogTitle>
-            <DialogContent>
-                <FormGroup>
-                    <FormLabel>
-                        <Typography variant="body1">
-                            How much do you need to borrow?
-                        </Typography>
-                        <TextField
-                            type="number"
-                            value={loanAmount || ''}
-                            onChange={(e) =>
-                                setLoanAmount(e.target.value)
-                            }
-                        ></TextField>
-                    </FormLabel>
-                </FormGroup>
-            </DialogContent>
-            <DialogActions>
-                <Button variant="contained" onClick={handleOnLoanSubmit}>
-                    Get Loan!
-                </Button>
-            </DialogActions>
+            <CurrencyModalForm
+                title="Loan Application"
+                formLabel="How much do you need to borrow?"
+                submitLabel="Get Loan!"
+                onSubmit={handleOnLoanSubmit}
+            />
         </Dialog>
     )
 }
