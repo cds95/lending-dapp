@@ -52,13 +52,7 @@ export const LoanListRowComp: React.FunctionComponent<TLoanListRowProps> = ({
                 Pay back loan
             </Button>
         )
-    } else if (currUserAccount === borrowerAddress) {
-        button = (
-            <Button variant="outlined" color="primary">
-                Cancel Loan
-            </Button>
-        )
-    } else if (lenderAddress !== currUserAccount) {
+    } else if (lenderAddress !== currUserAccount && borrowerAddress !== currUserAccount) {
         button = (
             <Button
                 variant="outlined"

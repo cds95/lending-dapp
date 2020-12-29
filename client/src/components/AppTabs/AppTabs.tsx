@@ -56,9 +56,9 @@ export const AppTabsComp: React.FunctionComponent<IAppTabsCompReduxStateProps> =
                 }
             >
                 <Tab label="All Open Loans" value={ETab.OPEN_LOANS} />
-                <Tab label="Borrowed Loans" value={ETab.USER_OPEN_LOANS} />
-                <Tab label="Closed Loans" value={ETab.SETTLED_LOANS} />
-                <Tab label="Lent Loans" value={ETab.USER_LENT_LOANS} />
+                <Tab label="My Open Loans" value={ETab.USER_OPEN_LOANS} />
+                <Tab label="My Closed Loans" value={ETab.SETTLED_LOANS} />
+                <Tab label="My Lent Loans" value={ETab.USER_LENT_LOANS} />
             </Tabs>
             <Card className="app__content">
                 <CardContent>

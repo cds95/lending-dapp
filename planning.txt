@@ -39,9 +39,8 @@
 # Remaining Features
  
  - Introduce events DONE 
- - Convert units to wei instead of ether.  We should always be working with the lowest currency denominator.
+ - Convert units to wei instead of ether.  We should always be working with the lowest currency denominator. DONE 
  - Throw errors.  Look at the required keyword
- - User must be able to withdraw loaned amount 
- - User must be able to cancel loan 
+ - User must be able to withdraw loaned amount DONE  
  - Introduce interest rates
  - Introduce timed loans https://www.ethereum-alarm-clock.com/.  Note that solidity doesn't allow scheduling.  This has to be done from outside the blockchain.
