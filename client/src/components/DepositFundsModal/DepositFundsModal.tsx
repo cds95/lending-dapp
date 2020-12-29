@@ -37,7 +37,7 @@ export const DepositFundsModalComp: React.FunctionComponent<TDepositFundsModalPr
     account,
     networkId,
 }) => {
-    const [numEthToDeposit, setNumEthToDeposit] = useState(0)
+    const [numEthToDeposit, setNumEthToDeposit] = useState("")
 
     const handleOnSubmit = () => {
         if (networkId) {
@@ -59,7 +59,7 @@ export const DepositFundsModalComp: React.FunctionComponent<TDepositFundsModalPr
                             type="number"
                             value={numEthToDeposit || ''}
                             onChange={(e) =>
-                                setNumEthToDeposit(parseInt(e.target.value))
+                                setNumEthToDeposit(e.target.value)
                             }
                         ></TextField>
                     </FormLabel>

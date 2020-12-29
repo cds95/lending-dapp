@@ -37,7 +37,7 @@ export const AskLoanModalComp: React.FunctionComponent<TAskLoanModalProps> = ({
     account,
     networkId,
 }) => {
-    const [loanAmount, setLoanAmount] = useState(0)
+    const [loanAmount, setLoanAmount] = useState("")
 
     const handleOnLoanSubmit = () => {
         if (networkId) {
@@ -59,7 +59,7 @@ export const AskLoanModalComp: React.FunctionComponent<TAskLoanModalProps> = ({
                             type="number"
                             value={loanAmount || ''}
                             onChange={(e) =>
-                                setLoanAmount(parseInt(e.target.value))
+                                setLoanAmount(e.target.value)
                             }
                         ></TextField>
                     </FormLabel>

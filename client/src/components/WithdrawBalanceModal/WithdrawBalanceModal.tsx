@@ -37,7 +37,7 @@ export const WithdrawBalanceModalComp: React.FunctionComponent<TWithdrawBalanceM
     account,
     networkId,
 }) => {
-    const [amountToWithdraw, setAmountToWithdraw] = useState(0)
+    const [amountToWithdraw, setAmountToWithdraw] = useState("")
 
     const handleOnWithdraw = () => {
         if (networkId) {
@@ -59,7 +59,7 @@ export const WithdrawBalanceModalComp: React.FunctionComponent<TWithdrawBalanceM
                             type="number"
                             value={amountToWithdraw || ''}
                             onChange={(e) =>
-                                setAmountToWithdraw(parseInt(e.target.value))
+                                setAmountToWithdraw(e.target.value)
                             }
                         ></TextField>
                     </FormLabel>

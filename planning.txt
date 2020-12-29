@@ -39,6 +39,7 @@
 # Remaining Features
  
  - Introduce events DONE 
+ - Convert units to wei instead of ether.  We should always be working with the lowest currency denominator.
  - Throw errors.  Look at the required keyword
  - User must be able to withdraw loaned amount 
  - User must be able to cancel loan 
