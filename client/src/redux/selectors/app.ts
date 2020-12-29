@@ -1,5 +1,5 @@
-import { ILoan } from '../../../types/models'
-import { IReduxAppState } from '../../../types/redux'
+import { ILoan } from '../../types/models'
+import { IReduxAppState } from '../../types/redux'
 
 export const getAllLoans = (state: IReduxAppState): ILoan[] => state.app.loans
 

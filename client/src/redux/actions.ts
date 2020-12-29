@@ -1,5 +1,5 @@
-import { ILoan } from '../../types/models'
-import { IReduxAction } from '../../types/redux'
+import { ILoan } from '../types/models'
+import { IReduxAction } from '../types/redux'
 
 export const SET_ETH_ACCOUNTS_ACTION = 'SET_ETH_ACCOUNTS'
 export const getSetEthAccountsAction = (accounts: string[]): IReduxAction => {

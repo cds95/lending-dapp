@@ -1,20 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { IReduxAction, IReduxAppState } from '../../../types/redux'
-import {
-    FormGroup,
-    Typography,
-    TextField,
-    FormLabel,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-} from '@material-ui/core'
+import { IReduxAction, IReduxAppState } from '../../types/redux'
+import { Dialog } from '@material-ui/core'
 import ApiUtils from '../../ApiUtils'
 import { CurrencyModalForm } from '../CurrencyModalForm'
+import { EEtherCurrencyUnit } from '../../types'
 
 interface IWithdrawBalanceModalOwnProps {
     isOpen: boolean
@@ -38,9 +29,12 @@ export const WithdrawBalanceModalComp: React.FunctionComponent<TWithdrawBalanceM
     account,
     networkId,
 }) => {
-    const handleOnWithdraw = (amount: string, currencyUnit: string) => {
+    const handleOnWithdraw = (
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
+    ) => {
         if (networkId) {
-            ApiUtils.withdrawBalance(networkId, account, amount)
+            ApiUtils.withdrawBalance(networkId, account, amount, currencyUnit)
             onClose()
         }
     }

@@ -6,3 +6,8 @@ export interface ILoan {
     interest?: number
     hasBeenSettled: boolean
 }
+
+export enum EEtherCurrencyUnit {
+    ETHER = 'ether',
+    WEI = 'wei ',
+}

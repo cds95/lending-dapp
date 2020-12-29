@@ -1,5 +1,5 @@
 import React from 'react'
-import { ILoan } from '../../../types/models'
+import { ILoan } from '../../types/models'
 import { LoanListRow } from './LoanListRow'
 import './LoanList.scss'
 

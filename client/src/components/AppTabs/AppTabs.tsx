@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { IReduxAppState } from '../../../types/redux'
+import { IReduxAppState } from '../../types/redux'
 import { CardContent, Card, Tabs, Tab } from '@material-ui/core'
-import { ILoan } from '../../../types/models'
+import { ILoan } from '../../types/models'
 import { LoanList } from '../LoanList'
 import {
     getAllLoans,

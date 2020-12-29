@@ -1,4 +1,4 @@
-import { ILoan } from '../types/models'
+import { ILoan } from './types/models'
 import ApiUtils from './ApiUtils'
 
 export const convertApiResponseToLoans = (response: any): ILoan[] => {

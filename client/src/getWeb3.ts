@@ -1,4 +1,4 @@
-/// <reference path="../types/global.ts" />
+/// <reference path="./types/global.ts" />
 import Web3 from 'web3'
 
 const getWeb3 = (): Promise<Web3> =>

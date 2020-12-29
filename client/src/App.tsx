@@ -12,7 +12,7 @@ import {
     getSetLoansAction,
 } from './redux/actions'
 import { AppHeader } from './components/AppHeader'
-import { ILoan } from '../types/models'
+import { ILoan } from './types/models'
 import { AppTabs } from './components/AppTabs'
 
 interface IAppState {

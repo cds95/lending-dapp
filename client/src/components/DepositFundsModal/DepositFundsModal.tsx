@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { IReduxAction, IReduxAppState } from '../../../types/redux'
+import { IReduxAction, IReduxAppState } from '../../types/redux'
 import { Dialog } from '@material-ui/core'
 import ApiUtils from '../../ApiUtils'
 import { CurrencyModalForm } from '../CurrencyModalForm'
+import { EEtherCurrencyUnit } from '../../types'
 
 interface IDepositFundsModalOwnProps {
     isOpen: boolean
@@ -28,9 +29,12 @@ export const DepositFundsModalComp: React.FunctionComponent<TDepositFundsModalPr
     account,
     networkId,
 }) => {
-    const handleOnSubmit = (amount: string, currency: string) => {
+    const handleOnSubmit = (
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
+    ) => {
         if (networkId) {
-            ApiUtils.topupBalance(networkId, account, amount)
+            ApiUtils.topupBalance(networkId, account, amount, currencyUnit)
             onClose()
         }
     }

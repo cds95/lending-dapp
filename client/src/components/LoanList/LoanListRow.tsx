@@ -1,11 +1,11 @@
 import React from 'react'
-import { ILoan } from '../../../types/models'
+import { ILoan } from '../../types/models'
 import { LoanListItem } from './LoanListItem'
 import Button from '@material-ui/core/Button'
 import clsx from 'clsx'
 import { CURRENCY } from '../../constants'
 import { connect } from 'react-redux'
-import { IReduxAppState } from '../../../types/redux'
+import { IReduxAppState } from '../../types/redux'
 import ApiUtils from '../../ApiUtils'
 import { isNotEmptyAddress } from '../../AppUtils'
 

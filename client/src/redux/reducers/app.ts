@@ -5,7 +5,7 @@ import {
     SET_ETH_NETWORK_ID_ACTION,
     SET_LOANS_ACTION,
 } from '../actions'
-import { IAppReducerState, IReduxAction } from '../../../types/redux'
+import { IAppReducerState, IReduxAction } from '../../types/redux'
 
 const initialState: IAppReducerState = {
     accounts: [],

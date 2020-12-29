@@ -1,7 +1,7 @@
 import Web3 from 'web3'
 import getWeb3 from './getWeb3'
 import LoanerContract from './contracts/Loaner.json'
-import { ILoan } from '../types/models'
+import { ILoan, EEtherCurrencyUnit } from './types/models'
 import { convertApiResponseToLoans } from './AppUtils'
 import { BigNumber } from 'bignumber.js'
 
@@ -124,7 +124,8 @@ export class ApiUtils {
     public async withdrawBalance(
         networkdId: string,
         account: string,
-        amountInEther: string
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
     ): Promise<void> {
         this.checkWeb3Initialized()
         const deployedLoanerContract = this.getContract(networkdId)
@@ -133,7 +134,7 @@ export class ApiUtils {
                 LoanerContract.abi as any,
                 deployedLoanerContract.address
             )
-            const amountInWei = this.convertEtherToWei(amountInEther)
+            const amountInWei = this.getAmountInWei(amount, currencyUnit)
             await instance.methods.withdrawBalance(amountInWei).send({
                 from: account,
             })
@@ -143,7 +144,8 @@ export class ApiUtils {
     public async askForLoan(
         networkId: string,
         account: string,
-        amountInEther: string
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
     ): Promise<void> {
         this.checkWeb3Initialized()
         const deployedLoanerContract = this.getContract(networkId)
@@ -152,7 +154,7 @@ export class ApiUtils {
                 LoanerContract.abi as any,
                 deployedLoanerContract.address
             )
-            const amountInWei = this.convertEtherToWei(amountInEther)
+            const amountInWei = this.getAmountInWei(amount, currencyUnit)
             await instance.methods.askForLoan(amountInWei).send({
                 from: account,
             })
@@ -202,12 +204,13 @@ export class ApiUtils {
     public async topupBalance(
         networkId: string,
         account: string,
-        amountOfEther: string
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
     ): Promise<void> {
         this.checkWeb3Initialized()
         const deployedLoanerContract = this.getContract(networkId)
         if (this.web3) {
-            const amountInWei = this.convertEtherToWei(amountOfEther)
+            const amountInWei = this.getAmountInWei(amount, currencyUnit)
             const currBalanceInWei = await this.web3.eth.getBalance(account)
             const currBalanceInWeiBigNum = new BigNumber(currBalanceInWei)
             if (amountInWei.isGreaterThan(currBalanceInWeiBigNum)) {
@@ -223,6 +226,18 @@ export class ApiUtils {
                 from: account,
                 value: amountInWei.toString(),
             })
+        }
+    }
+
+    private getAmountInWei(
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
+    ): BigNumber {
+        switch (currencyUnit) {
+            case EEtherCurrencyUnit.ETHER:
+                return this.convertEtherToWei(amount)
+            default:
+                return new BigNumber(amount)
         }
     }
 

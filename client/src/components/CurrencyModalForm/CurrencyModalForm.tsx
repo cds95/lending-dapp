@@ -8,13 +8,14 @@ import {
     TextField,
     Typography,
 } from '@material-ui/core'
+import { EEtherCurrencyUnit } from '../../types'
 import React, { useState } from 'react'
 
 interface ICurrencyModalFormProps {
     title: string
     formLabel: string
     submitLabel: string
-    onSubmit: (amount: string, currencyUnit: string) => void
+    onSubmit: (amount: string, currencyUnit: EEtherCurrencyUnit) => void
 }
 
 export const CurrencyModalForm: React.FunctionComponent<ICurrencyModalFormProps> = ({
@@ -24,9 +25,9 @@ export const CurrencyModalForm: React.FunctionComponent<ICurrencyModalFormProps>
     submitLabel,
 }) => {
     const [numEthToDeposit, setNumEthToDeposit] = useState('')
-    const [currencyUnit, setCurrencyUnit] = useState('ether')
+    const [currencyUnit, setCurrencyUnit] = useState(EEtherCurrencyUnit.ETHER)
     const handleOnSubmit = () => {
-        onSubmit(numEthToDeposit, '')
+        onSubmit(numEthToDeposit, currencyUnit)
     }
     return (
         <div className="currency-modal-form">

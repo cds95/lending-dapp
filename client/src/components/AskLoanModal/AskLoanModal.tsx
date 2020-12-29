@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { IReduxAction, IReduxAppState } from '../../../types/redux'
+import { IReduxAction, IReduxAppState } from '../../types/redux'
 import { Dialog } from '@material-ui/core'
 import ApiUtils from '../../ApiUtils'
 import { CurrencyModalForm } from '../CurrencyModalForm'
+import { EEtherCurrencyUnit } from '../../types'
 
 interface IAskLoanModalOwnProps {
     isOpen: boolean
@@ -28,9 +29,12 @@ export const AskLoanModalComp: React.FunctionComponent<TAskLoanModalProps> = ({
     account,
     networkId,
 }) => {
-    const handleOnLoanSubmit = (amount: string, currencyUnit: string) => {
+    const handleOnLoanSubmit = (
+        amount: string,
+        currencyUnit: EEtherCurrencyUnit
+    ) => {
         if (networkId) {
-            ApiUtils.askForLoan(networkId, account, amount)
+            ApiUtils.askForLoan(networkId, account, amount, currencyUnit)
             onClose()
         }
     }
