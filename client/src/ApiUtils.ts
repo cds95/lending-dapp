@@ -135,7 +135,7 @@ export class ApiUtils {
                 deployedLoanerContract.address
             )
             const amountInWei = this.getAmountInWei(amount, currencyUnit)
-            await instance.methods.withdrawBalance(amountInWei).send({
+            await instance.methods.withdrawBalance(amountInWei.toString()).send({
                 from: account,
             })
         }
@@ -155,7 +155,7 @@ export class ApiUtils {
                 deployedLoanerContract.address
             )
             const amountInWei = this.getAmountInWei(amount, currencyUnit)
-            await instance.methods.askForLoan(amountInWei).send({
+            await instance.methods.askForLoan(amountInWei.toString()).send({
                 from: account,
             })
         }
