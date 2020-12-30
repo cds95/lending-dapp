@@ -27,6 +27,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
+        "build-docker-image": "docker build -f Dockerfile -t lending-dapp:prod .",
         "heroku-deploy-prod": "heroku container:release web --app lending-dapp",
         "heroku-push-prod-image": "heroku container:push web --app lending-dapp"
     },
