@@ -27,8 +27,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "heroku-deploy-prod": "heroku container:release web --app shrouded-reaches-70265",
-        "heroku-push-prod-image": "heroku container:push web --app shrouded-reaches-70265"
+        "heroku-deploy-prod": "heroku container:release web --app lending-dapp",
+        "heroku-push-prod-image": "heroku container:push web --app lending-dapp"
     },
     "eslintConfig": {
         "extends": "react-app"
