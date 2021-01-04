@@ -1,7 +1,15 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import ApiUtils from '../src/ApiUtils'
-import { LinearProgress, Typography } from '@material-ui/core'
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    LinearProgress,
+    Typography,
+} from '@material-ui/core'
 import './App.scss'
 import { store } from './redux'
 import {
@@ -17,10 +25,20 @@ import { AppTabs } from './components/AppTabs'
 
 interface IAppState {
     isLoadingApp: boolean
+    isPreviewModalOpen: boolean
 }
 
 class App extends React.Component<{}, IAppState> {
-    state: IAppState = { isLoadingApp: true }
+    state: IAppState = { isLoadingApp: true, isPreviewModalOpen: true }
+
+    constructor(props: {}) {
+        super(props)
+        this.closePreviewModal = this.closePreviewModal.bind(this)
+    }
+
+    closePreviewModal() {
+        this.setState({ isPreviewModalOpen: false })
+    }
 
     componentDidMount = async () => {
         try {
@@ -88,7 +106,7 @@ class App extends React.Component<{}, IAppState> {
     }
 
     render() {
-        const { isLoadingApp } = this.state
+        const { isLoadingApp, isPreviewModalOpen } = this.state
         if (isLoadingApp) {
             return (
                 <div className="app--loading">
@@ -102,6 +120,43 @@ class App extends React.Component<{}, IAppState> {
                 <div className="app">
                     <AppHeader />
                     <AppTabs />
+                    <Dialog open={isPreviewModalOpen}>
+                        <DialogTitle>Welcome!</DialogTitle>
+                        <DialogContent>
+                            <Typography variant="body1">
+                                This is a mock Dapp I've developed to simulate a
+                                lending platform. Here users can lend each other
+                                Ether and withdraw them to their MetaMask
+                                wallets. View the demo below to see the
+                                application in action.
+                            </Typography>
+                            <br />
+                            <Typography variant="subtitle1">
+                                <a
+                                    target="_blank"
+                                    href="https://www.youtube.com/watch?v=H_KG8S0gpAw"
+                                >
+                                    Demo
+                                </a>
+                            </Typography>
+                            <Typography variant="subtitle1">
+                                <a
+                                    target="_blank"
+                                    href="https://github.com/cds95/lending-dapp"
+                                >
+                                    GitHub Code
+                                </a>
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                variant="contained"
+                                onClick={this.closePreviewModal}
+                            >
+                                Close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             </Provider>
         )

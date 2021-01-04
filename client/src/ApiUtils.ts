@@ -135,9 +135,11 @@ export class ApiUtils {
                 deployedLoanerContract.address
             )
             const amountInWei = this.getAmountInWei(amount, currencyUnit)
-            await instance.methods.withdrawBalance(amountInWei.toString()).send({
-                from: account,
-            })
+            await instance.methods
+                .withdrawBalance(amountInWei.toString())
+                .send({
+                    from: account,
+                })
         }
     }
 

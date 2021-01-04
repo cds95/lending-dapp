@@ -62,10 +62,11 @@ export const AppTabsComp: React.FunctionComponent<IAppTabsCompReduxStateProps> =
             </Tabs>
             <Card className="app__content">
                 <CardContent>
-                    {
-                        displayedLoans.length > 0 ? <LoanList loans={displayedLoans} /> : <Typography variant="h5">No loans to show</Typography>
-                    }
-                    
+                    {displayedLoans.length > 0 ? (
+                        <LoanList loans={displayedLoans} />
+                    ) : (
+                        <Typography variant="h5">No loans to show</Typography>
+                    )}
                 </CardContent>
             </Card>
         </div>
